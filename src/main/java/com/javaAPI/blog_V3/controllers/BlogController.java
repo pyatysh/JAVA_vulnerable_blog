@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,7 +22,7 @@ public class BlogController {
 
     @GetMapping("/blog")
     public String blogMain(Model model){
-        List<Post> posts = postRepository.findAll();
+        Iterable<Post> posts = postRepository.findAll();
         model.addAttribute("posts", posts);
         return "blog-main";
     }

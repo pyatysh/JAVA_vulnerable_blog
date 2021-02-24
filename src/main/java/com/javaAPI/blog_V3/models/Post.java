@@ -1,7 +1,9 @@
 package com.javaAPI.blog_V3.models;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity // table creation
 public class Post { // need to create fields
@@ -11,17 +13,15 @@ public class Post { // need to create fields
     private Long id;
 
     private String title, anons, full_text;
-//    private String author;
-//    private int views;
+    private int views;
+
+    public Post() {
+    }
 
     public Post(String title, String anons, String full_text) {
         this.title = title;
         this.anons = anons;
         this.full_text = full_text;
-    }
-
-    public Post() {
-
     }
 
     public Long getId() {
@@ -56,4 +56,11 @@ public class Post { // need to create fields
         this.full_text = full_text;
     }
 
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
 }
