@@ -1,7 +1,7 @@
 package com.javaAPI.blog_V3.controllers;
 
 import com.javaAPI.blog_V3.models.Post;
-import com.javaAPI.blog_V3.repo.PostRepository;
+import com.javaAPI.blog_V3.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +16,12 @@ import java.util.Optional;
 @Controller
 public class BlogController {
 
-    // we need to transfer all notes into the template
-    @Autowired // thus, we need to create a var, which will link us with the repo
-    private PostRepository postRepository;
+    @Autowired
+    private BlogService blogService;
 
     @GetMapping("/blog")
     public String blogMain(Model model){
-        Iterable<Post> posts = postRepository.findAll();
+        Iterable<Post> posts = blogService.findAll();
         model.addAttribute("posts", posts);
         return "blog-main";
     }
@@ -35,16 +34,16 @@ public class BlogController {
     @PostMapping("/blog/add")
     public String blogPostAdd(@RequestParam String title, @RequestParam String anons, @RequestParam String full_text, Model model){
         Post post = new Post(title, anons, full_text);
-        postRepository.save(post);
+        blogService.blogPostSave(post);
         return "redirect:/blog";
     }
 
     @GetMapping("/blog/{id}")
-    public String blogDetails(@PathVariable(value = "id") long id, Model model){
-        if(!postRepository.existsById(id)){
+    public String blogPostDetails(@PathVariable(value = "id") long id, Model model){
+        if(blogService.blogPostFind(id).isEmpty()){
             return "redirect:/blog";
         }
-        Optional<Post> post = postRepository.findById(id);
+        Optional<Post> post = blogService.blogPostFind(id);
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
         model.addAttribute("post", res);
@@ -52,11 +51,11 @@ public class BlogController {
     }
 
     @GetMapping("/blog/{id}/edit")
-    public String blogEdit(@PathVariable(value = "id") long id, Model model){
-        if(!postRepository.existsById(id)){
+    public String blogPostEdit(@PathVariable(value = "id") long id, Model model){
+        if(blogService.blogPostFind(id).isEmpty()){
             return "redirect:/blog";
         }
-        Optional<Post> post = postRepository.findById(id);
+        Optional<Post> post = blogService.blogPostFind(id);
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
         model.addAttribute("post", res);
@@ -65,19 +64,19 @@ public class BlogController {
 
     @PostMapping("/blog/{id}/edit")
     public String blogPostUpdate(@PathVariable(value = "id") long id, @RequestParam String title, @RequestParam String anons, @RequestParam String full_text, Model model){
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = blogService.blogPostFind(id).orElseThrow();
         post.setTitle(title);
         post.setAnons(anons);
         post.setFull_text(full_text);
-        postRepository.save(post);
+        blogService.blogPostSave(post);
 
         return "redirect:/blog";
     }
 
     @PostMapping("/blog/{id}/remove")
     public String blogPostDelete(@PathVariable(value = "id") long id, Model model){
-        Post post = postRepository.findById(id).orElseThrow();
-        postRepository.delete(post);
+        Post post = blogService.blogPostFind(id).orElseThrow();
+        blogService.blogPostDelete(post);
         return "redirect:/blog";
     }
 }
