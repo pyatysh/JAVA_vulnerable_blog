@@ -1,9 +1,7 @@
 package com.javaAPI.blog_V3.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity // table creation
 public class Post { // need to create fields
@@ -14,16 +12,19 @@ public class Post { // need to create fields
 
     private String title;
     private String anons;
-    private String full_text;
+    private String fullTextPost;
     private int views;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Comment> comments;
 
     public Post() {
     }
 
-    public Post(String title, String anons, String full_text) {
+    public Post(String title, String anons, String fullTextPost) {
         this.title = title;
         this.anons = anons;
-        this.full_text = full_text;
+        this.fullTextPost = fullTextPost;
     }
 
     public Long getId() {
@@ -50,12 +51,12 @@ public class Post { // need to create fields
         this.anons = anons;
     }
 
-    public String getFull_text() {
-        return full_text;
+    public String getFullTextPost() {
+        return fullTextPost;
     }
 
-    public void setFull_text(String full_text) {
-        this.full_text = full_text;
+    public void setFullTextPost(String fullTextPost) {
+        this.fullTextPost = fullTextPost;
     }
 
     public int getViews() {
@@ -64,5 +65,13 @@ public class Post { // need to create fields
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
