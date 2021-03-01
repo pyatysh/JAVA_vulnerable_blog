@@ -1,17 +1,22 @@
 package com.javaAPI.blog_V3.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long comId;
-
     private String fullTextCom;
+
+    public Comment() {
+    }
+
+    public Comment(Long comId, String fullTextCom) {
+        this.comId = comId;
+        this.fullTextCom = fullTextCom;
+    }
+
 
     public Long getComId() {
         return comId;
@@ -25,7 +30,8 @@ public class Comment {
         return fullTextCom;
     }
 
-    public void setFullTextCom(String fullText) {
-        this.fullTextCom = fullText;
+    public void setFullTextCom(String fullTextCom) {
+        this.fullTextCom = fullTextCom;
     }
+
 }

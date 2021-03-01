@@ -1,17 +1,17 @@
 package com.javaAPI.blog_V3.service;
 
+import com.javaAPI.blog_V3.models.Comment;
 import com.javaAPI.blog_V3.models.Post;
 import com.javaAPI.blog_V3.repo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BlogService {
+
     @Autowired
     private PostRepository postRepository;
 

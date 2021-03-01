@@ -16,6 +16,10 @@
         <form th:action="'/blog/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Delete</button>
         </form>
+        <form th:action="'/blog/' + ${el.id} + '/comments'" method="post">
+            <textarea name="fullTextCom" placeholder="Enter the comment" class="form-control"></textarea><br>
+            <button type="submit" class="btn btn-success">Add the comment</button>
+        </form>
         <div th:each="elem : ${el.comments}" class="alert alert-info mt-2">
             <p th:text="${elem.fullTextCom}"/>
         </div>

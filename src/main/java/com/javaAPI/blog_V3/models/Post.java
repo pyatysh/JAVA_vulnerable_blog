@@ -3,8 +3,8 @@ package com.javaAPI.blog_V3.models;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity // table creation
-public class Post { // need to create fields
+@Entity
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,16 +15,19 @@ public class Post { // need to create fields
     private String fullTextPost;
     private int views;
 
+
+
     @OneToMany(fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     public Post() {
     }
 
-    public Post(String title, String anons, String fullTextPost) {
+    public Post(String title, String anons, String fullTextPost, List<Comment> comments) {
         this.title = title;
         this.anons = anons;
         this.fullTextPost = fullTextPost;
+        this.comments = comments;
     }
 
     public Long getId() {
