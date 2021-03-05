@@ -1,12 +1,15 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Site Blog</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </head>
+
 <body>
 <header th:insert="blocks/header :: header"></header>
+
 <div class="container mt-5">
     <div th:each="el : ${post}" class="alert alert-info mt-2">
         <h3 th:text="${el.title}"/>
@@ -16,15 +19,25 @@
         <form th:action="'/blog/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Delete</button>
         </form>
-        <form th:action="'/blog/' + ${el.id} + '/comments'" method="post">
+
+        <form th:action="'/blog/' + ${el.id} + '/comments'" method="post" enctype="multipart/form-data">
             <textarea name="fullTextCom" placeholder="Enter the comment" class="form-control"></textarea><br>
+            <input type="file" name="file" accept="image/x-png,image/jpeg,image/jpg"/>
             <button type="submit" class="btn btn-success">Add the comment</button>
         </form>
-        <div th:each="elem : ${el.comments}" class="alert alert-info mt-2">
-            <p th:text="${elem.fullTextCom}"/>
+
+        <div th:each="comm : ${el.comments}" class="alert alert-info mt-2">
+            <p th:text="${comm.fullTextCom}"/>
+
+            <div th:each="file : ${comm.imgToComment}" class="alert alert-info mt-2">
+                <a th:href="${file}" th:text="${file}" />
+            </div>
+
         </div>
     </div>
 </div>
+
 <div th:insert="blocks/footer :: footer"></div>
 </body>
+
 </html>

@@ -1,14 +1,18 @@
 package com.javaAPI.blog_V3.controllers;
 
 import com.javaAPI.blog_V3.models.Comment;
+import com.javaAPI.blog_V3.models.Image;
 import com.javaAPI.blog_V3.models.Post;
 import com.javaAPI.blog_V3.service.BlogService;
 import com.javaAPI.blog_V3.service.CommentService;
+import com.javaAPI.blog_V3.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +25,9 @@ public class BlogController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping("/blog")
     public String blogMain(Model model){
@@ -80,33 +87,59 @@ public class BlogController {
         Post post = blogService.blogPostFind(id).orElseThrow();
         blogService.blogPostDelete(post);
         return "redirect:/blog";
+
     }
 
     @PostMapping("blog/{postId}/comments")
-    public String blogPostAddCom(@PathVariable(value = "postId") long postId, @RequestBody String fullTextCom, Model model){
-        Comment comment = new Comment();
-        comment.setFullTextCom(fullTextCom);
-        commentService.blogComSave(comment);
+    public String blogPostAddCom(@PathVariable(value = "postId") long postId,
+                                 @RequestBody String fullTextCom,
+                                 @RequestParam("file") MultipartFile file,
+                                 Model model) throws IOException {
+//    public String blogPostAddCom(@PathVariable(value = "postId") long postId,
+//                                 @ModelAttribute("fullTextCom") String fullTextCom,
+//                                 @RequestParam(value = "file") MultipartFile file,
+//                                 Model model) throws IOException {
+
         Optional<Post> postContainer = blogService.blogPostFind(postId);
         if(postContainer.isEmpty()){
             return "blog-details";
         }
+
+        Comment comment = new Comment();
+        comment.setFullTextCom(fullTextCom);
+
+        Image imageInBytes = imageService.uploadImg(file);
+        List<Image> commentImages = comment.getImgToComment();
+        commentImages.add(imageInBytes);
+
+        commentService.blogComSave(comment);
         Post post = postContainer.get();
         List<Comment> blogComments = post.getComments();
         blogComments.add(comment);
         blogService.blogPostSave(post);
         return "redirect:/blog";
+
     }
 
     @GetMapping("/blog/{postId}/comments")
-    public String blogShowCom(@PathVariable(value = "postId") long postId, Model model){
+    public String blogShowCom(@PathVariable(value = "postId") long postId,
+                              Model model) throws IOException {
+
         Optional<Post> postContainer = blogService.blogPostFind(postId);
         if(postContainer.isEmpty()){
             return "blog-details";
         }
+
         List<Comment> blogComments = postContainer.get().getComments();
         model.addAttribute("comments", blogComments);
+
+        for (Comment item : blogComments) {
+            model.addAttribute("images", item.getImgToComment());
+        }
         return "redirect:/blog";
+
     }
+
+
 
 }
