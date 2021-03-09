@@ -29,8 +29,8 @@
         <div th:each="comm : ${el.comments}" class="alert alert-info mt-2">
             <p th:text="${comm.fullTextCom}"/>
 
-            <div th:each="file : ${comm.imgToComment}" class="alert alert-info mt-2">
-                <a th:href="${file}" th:text="${file}" />
+            <div th:each="image : ${comm.imgToComment}" class="alert alert-info mt-2">
+                <img class='img-thumbnail' th:src="@{'data:image/jpeg;base64,'+ ${image.base64Image}}"></img>
             </div>
 
         </div>

@@ -1,6 +1,8 @@
 package com.javaAPI.blog_V3.models;
 
 import javax.persistence.*;
+import java.util.Base64;
+import java.util.List;
 
 @Entity
 public class Image {
@@ -14,8 +16,7 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long imgId, byte[] imgContent) {
-        this.imgId = imgId;
+    public Image(byte[] imgContent) {
         this.imgContent = imgContent;
     }
 
@@ -33,5 +34,10 @@ public class Image {
 
     public void setImgContent(byte[] imgContent) {
         this.imgContent = imgContent;
+    }
+
+    public String getBase64Image(){
+        // null check
+        return Base64.getEncoder().encodeToString(imgContent);
     }
 }

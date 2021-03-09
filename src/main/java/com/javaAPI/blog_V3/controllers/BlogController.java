@@ -7,6 +7,7 @@ import com.javaAPI.blog_V3.service.BlogService;
 import com.javaAPI.blog_V3.service.CommentService;
 import com.javaAPI.blog_V3.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,13 +94,9 @@ public class BlogController {
 
     @PostMapping("blog/{postId}/comments")
     public String blogPostAddCom(@PathVariable(value = "postId") long postId,
-                                 @RequestBody String fullTextCom,
-                                 @RequestParam("file") MultipartFile file,
+                                 @RequestPart String fullTextCom,
+                                 @RequestPart("file") MultipartFile file,
                                  Model model) throws IOException {
-//    public String blogPostAddCom(@PathVariable(value = "postId") long postId,
-//                                 @ModelAttribute("fullTextCom") String fullTextCom,
-//                                 @RequestParam(value = "file") MultipartFile file,
-//                                 Model model) throws IOException {
 
         Optional<Post> postContainer = blogService.blogPostFind(postId);
         if(postContainer.isEmpty()){
@@ -130,12 +128,8 @@ public class BlogController {
             return "blog-details";
         }
 
-        List<Comment> blogComments = postContainer.get().getComments();
-        model.addAttribute("comments", blogComments);
+        model.addAttribute("post", postContainer.get());
 
-        for (Comment item : blogComments) {
-            model.addAttribute("images", item.getImgToComment());
-        }
         return "redirect:/blog";
 
     }

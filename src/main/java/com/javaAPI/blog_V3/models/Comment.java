@@ -16,12 +16,10 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Long comId, String fullTextCom, List<Image> imgToComment) {
-        this.comId = comId;
+    public Comment(String fullTextCom, List<Image> imgToComment) {
         this.fullTextCom = fullTextCom;
         this.imgToComment = imgToComment;
     }
-
 
     public Long getComId() {
         return comId;
@@ -46,4 +44,5 @@ public class Comment {
     public void setImgToComment(List<Image> imgToComment) {
         this.imgToComment = imgToComment;
     }
+
 }
