@@ -7,7 +7,6 @@ import com.javaAPI.blog_V3.service.BlogService;
 import com.javaAPI.blog_V3.service.CommentService;
 import com.javaAPI.blog_V3.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -106,15 +105,16 @@ public class BlogController {
         Comment comment = new Comment();
         comment.setFullTextCom(fullTextCom);
 
-        Image imageInBytes = imageService.uploadImg(file);
-        List<Image> commentImages = comment.getImgToComment();
-        commentImages.add(imageInBytes);
+        if (!file.isEmpty()) {
+            Image imageInBytes = imageService.uploadImg(file);
+            comment.setImgToComment(Collections.singletonList(imageInBytes));
+        }
+            commentService.blogComSave(comment);
+            Post post = postContainer.get();
+            List<Comment> blogComments = post.getComments();
+            blogComments.add(comment);
+            blogService.blogPostSave(post);
 
-        commentService.blogComSave(comment);
-        Post post = postContainer.get();
-        List<Comment> blogComments = post.getComments();
-        blogComments.add(comment);
-        blogService.blogPostSave(post);
         return "redirect:/blog";
 
     }
