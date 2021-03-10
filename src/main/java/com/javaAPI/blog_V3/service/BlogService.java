@@ -31,4 +31,9 @@ public class BlogService {
         postRepository.delete(post);
     }
 
+    public Iterable<Post> postsSearch(String searchWords){
+         return postRepository.findByTitleContainingIgnoreCase(searchWords);
+    }
+
+
 }

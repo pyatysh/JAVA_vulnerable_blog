@@ -27,7 +27,8 @@
         </form>
 
         <div th:each="comm : ${el.comments}" class="alert alert-info mt-2">
-            <p th:text="${comm.fullTextCom}"/>
+<!--            th:utext instead of th:text allows to have stored XSS via a comment under the post -->
+            <p th:utext="${comm.fullTextCom}"/>
 
             <div th:each="image : ${comm.imgToComment}" class="alert alert-info mt-2">
                 <img class='img-thumbnail' th:src="@{'data:image/jpeg;base64,'+ ${image.base64Image}}"></img>

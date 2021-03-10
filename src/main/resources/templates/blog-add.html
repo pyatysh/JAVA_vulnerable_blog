@@ -8,7 +8,10 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 <div class="container mt-5 mb-5">
-    <h1>Adding the Article</h1>
+<!--    added DOM-based XSS? - NO-->
+    <div onmouseover="myFunction()">
+        <h1>Adding the Article</h1>
+    </div>
     <form action="/blog/add" method="post">
         <input type="text" name="title" placeholder="Enter the article title" class="form-control"><br>
         <input type="text" name="anons" placeholder="Enter the article abstract" class="form-control"><br>
@@ -17,5 +20,11 @@
     </form>
 </div>
 <div th:insert="blocks/footer :: footer"></div>
+
+<script>
+    function myFunction() {
+        alert("This is not XSS - just to annoy you :)");
+    }
+</script>
 </body>
 </html>
