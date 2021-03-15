@@ -10,10 +10,40 @@
 <div class="container mt-5">
     <h1>Site Blog</h1>
 
+
+        <input id="userName" type="text" name="userName" placeholder="Enter your name..." class="form-control"><br>
+        <button onclick="greetingFunction()" class="btn btn-success">Greet me</button>
+
     <form action="/blog/search" method="post">
         <input type="text" name="searchWords" placeholder="Search for..." class="form-control"><br>
         <button type="submit" class="btn btn-success">Find</button>
     </form>
+
+<!--    ? Reflected XSS via <script>alert("XSS")</script>-->
+    <p th:utext="${searchWords}"/>
+
+<!--    ? DOM-based XSS via error: <img src=1 onerror=alert(1)>-->
+    <p id="userInput"></p>
+
+    <script>
+        function greetingFunction(){
+            const name = document.getElementById("userName").value;
+            document.getElementById("userInput").innerHTML = "Hi" + name;
+        }
+    </script>
+
+<!--    ? Reflected XSS via <script>alert("XSS")</script>-->
+    <p th:utext="${searchWords}"/>
+
+<!--    ? DOM-based XSS via error: <img src=1 onerror=alert(1)>-->
+    <p id="userInput"></p>
+
+    <script>
+        function greetingFunction(){
+            const name = document.getElementById("userName").value;
+            document.getElementById("userInput").innerHTML = name;
+        }
+    </script>
 
     <div th:each="el : ${posts}" class="alert alert-info mt-2">
         <h3 th:text="${el.title}"/>

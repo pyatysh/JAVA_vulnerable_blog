@@ -136,18 +136,22 @@ public class BlogController {
 
     @PostMapping("/blog/search")
     public String filterPost(@RequestParam String searchWords, Model model){
-        Iterable<Post> foundPosts;
 
+//    @PostMapping("/blog/search?{searchWords}")
+//    public String filterPost(@PathVariable(value = "searchWords") String searchWords, Model model){
+
+        Iterable<Post> foundPosts;
         if (searchWords != null && !searchWords.isEmpty()) {
             foundPosts = blogService.postsSearch(searchWords);
         } else {
             foundPosts = blogService.findAll();
         }
         model.addAttribute("foundPosts", foundPosts);
+        model.addAttribute("searchWords", searchWords);
 
+
+        model.addAttribute("searchWords", searchWords);
         return "blog-main";
     }
-
-
 
 }

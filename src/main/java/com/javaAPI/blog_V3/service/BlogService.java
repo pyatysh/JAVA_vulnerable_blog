@@ -1,12 +1,10 @@
 package com.javaAPI.blog_V3.service;
 
-import com.javaAPI.blog_V3.models.Comment;
 import com.javaAPI.blog_V3.models.Post;
 import com.javaAPI.blog_V3.repo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +24,9 @@ public class BlogService {
     public Optional<Post> blogPostFind(long id){
         return postRepository.findById(id);
     }
+//    public Optional<Post> blogPostFind(long id){
+//        return postRepository.unsafePostSearch(id);
+//    }
 
     public void blogPostDelete(Post post) {
         postRepository.delete(post);
@@ -33,6 +34,7 @@ public class BlogService {
 
     public Iterable<Post> postsSearch(String searchWords){
          return postRepository.findByTitleContainingIgnoreCase(searchWords);
+//        return postRepository.unsafePostSearch(searchWords);
     }
 
 
