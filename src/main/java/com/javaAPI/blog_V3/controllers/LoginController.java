@@ -1,6 +1,8 @@
 package com.javaAPI.blog_V3.controllers;
 
 import com.javaAPI.blog_V3.service.LoginService;
+import com.javaAPI.blog_V3.service.UserService;
+import com.javaAPI.blog_V3.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @Controller
 public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/login")
     public String loginPage(Model model) {
@@ -44,8 +50,8 @@ public class LoginController {
             }
             HttpSession newSession = request.getSession(true);
 
-            Cookie message = new Cookie("message", "Welcome");
-            response.addCookie(message);
+//            Cookie message = new Cookie("message", "Welcome");
+//            response.addCookie(message);
             response.sendRedirect("blog");
         }
         else {
@@ -54,5 +60,22 @@ public class LoginController {
             out.println("<font color=red>Either username or password is wrong.</font>");
             rd.include(request, response);
         }
+    }
+
+    @GetMapping("/registration")
+    public String registrationPage(Model model) {
+        model.addAttribute("title", "About");
+        return "blog-register";
+    }
+
+    @PostMapping("/registration")
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           Model model){
+        ArrayList<User> users = new ArrayList<>();
+        User user = new User(username, password);
+        userService.userSave(user);
+
+        return "redirect:/login";
     }
 }

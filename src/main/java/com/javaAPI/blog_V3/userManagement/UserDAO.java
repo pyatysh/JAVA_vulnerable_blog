@@ -14,6 +14,7 @@ import java.util.List;
 public class UserDAO{
 
     private final DataSource dataSource;
+//    probably, we don't need em - check it!
     private final EntityManager em;
 
     public UserDAO(DataSource dataSource, EntityManager em) {
