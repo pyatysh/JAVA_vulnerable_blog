@@ -10,20 +10,29 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 
+<div class="container mt-5">
+    <h1>Login page</h1>
 
-<h1>Login page</h1>
-<!--<p th:if="${loginError}" class="error">Wrong user or password</p>-->
-<form th:action="@{/login}" method="post">
+    <form th:action="@{/login}" method="post" id="login_form"></form>
+    <form th:action="@{/logout}" method="post" id="logout_form"></form>
+
     <label for="username">Username</label>:
-    <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+    <input type="text" id="username" name="username" autofocus="autofocus" form="login_form"/> <br/>
     <label for="password">Password</label>:
-    <input type="password" id="password" name="password" /> <br />
-    <input type="submit" value="Log in" />
-</form>
-</body>
+    <input type="password" id="password" name="password" form="login_form"/> <br />
 
+    <table>
+        <tr>
+            <td>
+                <input type="submit" class="btn btn-primary" value="Log in" form="login_form"/>
+            </td>
+            <td>
+                <input type="submit" class="btn btn-primary" value="Log out" form="logout_form"/>
+            </td>
+        </tr>
+    </table>
 
-
+</div>
 
 <div th:insert="blocks/footer :: footer"></div>
 </body>

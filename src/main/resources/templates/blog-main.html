@@ -20,7 +20,7 @@
     </form>
 
 <!--    ? Reflected XSS via <script>alert("XSS")</script>-->
-    <p th:utext="${searchWords}"/>
+    <p th:utext="${'You searched for: ' + searchWords}"/>
 
 <!--    ? DOM-based XSS via error: <img src=1 onerror=alert(1)>-->
     <p id="userInput"></p>
@@ -28,20 +28,7 @@
     <script>
         function greetingFunction(){
             const name = document.getElementById("userName").value;
-            document.getElementById("userInput").innerHTML = "Hi" + name;
-        }
-    </script>
-
-<!--    ? Reflected XSS via <script>alert("XSS")</script>-->
-    <p th:utext="${searchWords}"/>
-
-<!--    ? DOM-based XSS via error: <img src=1 onerror=alert(1)>-->
-    <p id="userInput"></p>
-
-    <script>
-        function greetingFunction(){
-            const name = document.getElementById("userName").value;
-            document.getElementById("userInput").innerHTML = name;
+            document.getElementById("userInput").innerHTML = "Hi, " + name + "!";
         }
     </script>
 

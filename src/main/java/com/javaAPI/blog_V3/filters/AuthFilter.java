@@ -23,6 +23,10 @@ public class AuthFilter implements Filter {
 
         HttpSession session = req.getSession(false);
 
+        // to forbid access to /blog/* pages after logout
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+
+
         if (session == null) {   //checking whether the session exists
             this.context.log("Unauthorized access request");
             res.sendRedirect(req.getContextPath() + "/login");

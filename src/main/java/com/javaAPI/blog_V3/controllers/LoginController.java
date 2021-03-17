@@ -49,9 +49,11 @@ public class LoginController {
                 oldSession.invalidate();
             }
             HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("user", request.getParameter("username"));
 
 //            Cookie message = new Cookie("message", "Welcome");
 //            response.addCookie(message);
+
             response.sendRedirect("blog");
         }
         else {
@@ -78,4 +80,28 @@ public class LoginController {
 
         return "redirect:/login";
     }
+
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        if (session != null) {
+            try {
+                session.removeAttribute("user");
+                session.invalidate();
+                String pageToForward = request.getContextPath();
+                response.sendRedirect(pageToForward);
+            } catch (Exception sqle) {
+                System.out.println("error UserValidateServlet message : " + sqle.getMessage());
+                System.out.println("error UserValidateServlet exception : " + sqle);
+            }
+        }
+    }
+
+
+//    public String logout(HttpServletRequest request) {
+//        System.out.println("You logged out");
+//        HttpSession httpSession = request.getSession();
+//        httpSession.invalidate();
+//        return "redirect:/login";
+//    }
 }

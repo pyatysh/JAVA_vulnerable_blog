@@ -9,11 +9,13 @@
     <header th:insert="blocks/header :: header"></header>
 
     <div class="container mt-5 mb-5">
-        <h1>Welcome to the Blog!</h1>
-        <h3>Please, authenticate  yourself</h3>
+    <h1>Welcome to the Blog!</h1>
 
-        <input type="button" value="login" onclick="location.href = '/login';">
-        <input type="button" value="register" onclick="location.href = '/registration';">
+    <div class="btn-group" role="group" aria-label="logreg">
+        <button type="button" class="btn btn-secondary" onclick="location.href = '/login';">Login/Logout</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href = '/registration';">Register</button>
+<!--        <button type="button" class="btn btn-secondary">Right</button>-->
+    </div>
     </div>
 
     <div th:insert="blocks/footer :: footer"></div>
