@@ -1,17 +1,8 @@
 package com.javaAPI.blog_V3.controllers;
 
-import com.javaAPI.blog_V3.models.Comment;
-import com.javaAPI.blog_V3.models.Post;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.sql.Struct;
-import java.util.ArrayList;
 
 @Controller
 public class MainController {

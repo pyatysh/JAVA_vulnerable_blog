@@ -1,6 +1,7 @@
 package com.javaAPI.blog_V3.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -44,4 +45,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

@@ -97,11 +97,4 @@ public class LoginController {
         }
     }
 
-
-//    public String logout(HttpServletRequest request) {
-//        System.out.println("You logged out");
-//        HttpSession httpSession = request.getSession();
-//        httpSession.invalidate();
-//        return "redirect:/login";
-//    }
 }

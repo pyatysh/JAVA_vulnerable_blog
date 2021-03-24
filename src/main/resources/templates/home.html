@@ -18,6 +18,11 @@
     </div>
     </div>
 
+    <form method="post" enctype="multipart/form-data" action="/saveImageForXXE">
+        <input type="file" name="imageFile">
+        <input type="submit" value="Add something to the Server"/>
+    </form>
+
     <div th:insert="blocks/footer :: footer"></div>
 </body>
 </html>

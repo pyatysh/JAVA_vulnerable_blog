@@ -3,15 +3,19 @@ package com.javaAPI.blog_V3.controllers;
 import com.javaAPI.blog_V3.models.Comment;
 import com.javaAPI.blog_V3.models.Image;
 import com.javaAPI.blog_V3.models.Post;
+import com.javaAPI.blog_V3.models.User;
 import com.javaAPI.blog_V3.service.BlogService;
 import com.javaAPI.blog_V3.service.CommentService;
 import com.javaAPI.blog_V3.service.ImageService;
+import com.javaAPI.blog_V3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +34,9 @@ public class BlogController {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/blog")
     public String blogMain(Model model){
         Iterable<Post> posts = blogService.findAll();
@@ -42,10 +49,27 @@ public class BlogController {
         return "blog-add";
     }
 
+//    @PostMapping("/blog/add")
+//    public String blogPostAdd(@RequestParam String title, @RequestParam String anons, @RequestParam String fullTextPost, Model model){
+//        ArrayList<Comment> comments = new ArrayList<>();
+//        Post post = new Post(title, anons, fullTextPost, comments);
+//        blogService.blogPostSave(post);
+//        return "redirect:/blog";
+//    }
+
     @PostMapping("/blog/add")
-    public String blogPostAdd(@RequestParam String title, @RequestParam String anons, @RequestParam String fullTextPost, Model model){
+    public String blogPostAdd(HttpServletRequest request,
+                              @RequestParam String title,
+                              @RequestParam String anons,
+                              @RequestParam String fullTextPost,
+                              Model model){
+
+        String username = request.getSession().getAttribute("user").toString();
+        User author = userService.userFindUsername(username);
+
         ArrayList<Comment> comments = new ArrayList<>();
-        Post post = new Post(title, anons, fullTextPost, comments);
+
+        Post post = new Post(title, anons, fullTextPost, comments, author);
         blogService.blogPostSave(post);
         return "redirect:/blog";
     }
@@ -149,9 +173,14 @@ public class BlogController {
         model.addAttribute("foundPosts", foundPosts);
         model.addAttribute("searchWords", searchWords);
 
-
-        model.addAttribute("searchWords", searchWords);
         return "blog-main";
+    }
+
+    @PostMapping("/saveImageForXXE")
+    public String uploadImageXEE(@RequestParam("imageFile") MultipartFile imageFile) throws Exception {
+        String returnValue = "home";
+        imageService.saveImageXXE(imageFile);
+        return "redirect:/";
     }
 
 }
