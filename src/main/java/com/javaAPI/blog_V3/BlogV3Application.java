@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Bean;
 public class BlogV3Application {
 
 	public static void main(String[] args) {
+		System.setProperty("org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH", "true");
+		System.setProperty("org.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH", "true");
 		SpringApplication.run(BlogV3Application.class, args);
 	}
+
 
 	@Bean
 	public FilterRegistrationBean<AuthFilter> loggingFilter(){
@@ -23,4 +26,5 @@ public class BlogV3Application {
 
 		return registrationBean;
 	}
+
 }
